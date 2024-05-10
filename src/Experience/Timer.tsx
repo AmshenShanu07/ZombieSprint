@@ -3,7 +3,7 @@ import useGameStore from '../Hooks/useGameStore';
 // import { useFrame } from '@react-three/fiber';
 
 function Timer() {
-  const { isPaused, incGameSpeed } = useGameStore();
+  const { isPaused } = useGameStore();
   const [time, setTime] = useState(0);
   // const [isInc, setIsInc] = useState<boolean>(false);
 
