@@ -18,7 +18,9 @@ const App = () => {
   return (
     <KeyboardControls map={map} >
       <Canvas shadows camera={{ position: [0, 0.7, 3], fov: 30 }} >
-        <ambientLight intensity={1.5} />
+        <color attach="background" args={['#7a0049']} />
+        <fog attach='fog' args={['#7a0049',15,17]} />
+        <ambientLight intensity={2} />
         <Experience/>
       </Canvas>
     </KeyboardControls>

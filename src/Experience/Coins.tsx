@@ -1,4 +1,4 @@
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { Fragment, useRef, useState } from 'react';
 import { Mesh, Box3 } from 'three'
 import useGameStore from '../Hooks/useGameStore';
@@ -8,30 +8,38 @@ interface CoinProps {
 }
 
 const Coin = ({ xPos }:CoinProps):JSX.Element => {
-  const { isPaused } = useGameStore();
+  const { speed, isPaused, heroPoint, modiPoint, setHeroPoint, setModiPoint } = useGameStore();
   const coinRef = useRef<Mesh>(null);
-  const {scene} = useThree();
-  const [heroRef] = scene.children.filter(d => (d instanceof Mesh && d.name === 'hero'))
+  const [isIntersected, setIsIntersected] = useState<boolean>(false);
+  const heroRef = useGameStore(state => state.hero);
+  const capRef = useGameStore(state => state.cap)
 
 
 
   useFrame(({ clock, scene }) => {
-    const heroMesh = heroRef as Mesh;
-
     if(!coinRef.current) return;
-    if(!heroMesh) return;
+    if(!heroRef.current || !capRef.current) return;
 
     coinRef.current.position.y = 
       Math.abs(Math.sin(clock.elapsedTime * 2.2) * 0.08) + 0.05
 
     if(isPaused) return;
     
-    coinRef.current.position.z += 0.02
+    coinRef.current.position.z += speed
 
-    const heroBox = new Box3().setFromObject(heroMesh)
+    const modiBox = new Box3().setFromObject(capRef.current);
+    const heroBox = new Box3().setFromObject(heroRef.current)
     const coinBox = new Box3().setFromObject(coinRef.current);
 
-    if(coinBox.intersectsBox(heroBox)) {
+    if(coinBox.intersectsBox(heroBox) && !isIntersected) {
+      setIsIntersected(true);
+      setHeroPoint(heroPoint+1)
+      scene.remove(coinRef.current)
+    }
+    
+    if(coinBox.intersectsBox(modiBox) && !isIntersected) {
+      setIsIntersected(true);
+      setModiPoint(modiPoint+1)
       scene.remove(coinRef.current)
     }
     
@@ -43,7 +51,7 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
 
   return (
     <>
-      <mesh ref={coinRef} position={[xPos,0.1,-7]} name="coin" >
+      <mesh ref={coinRef} position={[xPos,0.1,-15]} name="coin" >
         <sphereGeometry args={[0.05,12,12]} />
         <meshStandardMaterial color={'yellow'} />
       </mesh>
@@ -53,7 +61,8 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
 
 
 const CoinsGenerator = () => {
-  const { isPaused } = useGameStore();
+  const { isPaused, speed } = useGameStore();
+  const objSpeed = useRef<number>(0);
   const [hold, setHold] = useState<boolean>(false);
   const [coins, setCoins] = useState<JSX.Element[]>([])
   const [index, setIndex] = useState<number>(0);
@@ -71,16 +80,18 @@ const CoinsGenerator = () => {
   useFrame(({ clock }) =>{
 
     if(isPaused) return;
+    const limit = 7 - Math.round(speed * 10) 
 
-    if( !hold && Math.round(clock.elapsedTime%5) === 0) {
+    if( !hold && Math.round((clock.elapsedTime + objSpeed.current)%limit) === 0) {
       setHold(true);
       addCoin()
     }
 
-    if(Math.round(clock.elapsedTime%5) != 0) {
+    if(Math.round((clock.elapsedTime + objSpeed.current)%limit) != 0) {
       setHold(false);
     }
     
+    objSpeed.current += speed;
 
   })
   return (

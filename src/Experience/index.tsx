@@ -1,28 +1,43 @@
 // import * as THREE from 'three';
 import { Html } from '@react-three/drei'
-import Floor from './Floor';
+import { useEffect, useState } from 'react';
+import { useThree } from '@react-three/fiber';
+
+import Modi from './Modi';
 import Hero from './Hero';
+import Floor from './Floor';
 import CoinsGenerator from './Coins';
 import ObstacleGenerator from './Obstacle';
 import useGameStore from '../Hooks/useGameStore';
-import { useThree } from '@react-three/fiber';
-// import Coins from './Coins';
-// import { useFrame } from '@react-three/fiber';
-// import { useState } from 'react';
 
 const Experience = () => {
   const { viewport } = useThree();
-  const { isPaused, setGameMode } = useGameStore();
+  const { speed, isPaused, modiPoint, heroPoint, setGameMode,incGameSpeed } = useGameStore();
   const onClickPlayPause = () => setGameMode(!isPaused);
-  
+
+  const [time, setTime] = useState<number>(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if(!isPaused) {
+        setTime(prevTime => (prevTime + 1 + speed));
+        speed < 0.15 && incGameSpeed()
+      } else {
+        setTime(prevTime => prevTime);
+      }
+    }, 500);
+
+    return () => clearInterval(intervalId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPaused,speed]);
 
   return (
     <>
-      {/* <OrbitControls/> */}
       <CoinsGenerator/>
       <ObstacleGenerator/>
       <Hero/>
-      {[0,1,2,3,4,5,6,7].map((d,i) =>(
+      <Modi/>
+      {[-1,0,1,2,3,4,5,6,7,8,9].map((d,i) =>(
         <Floor
         key={i}
         defaultPos={d}
@@ -30,7 +45,10 @@ const Experience = () => {
         />
       ))}
 
-      <Html position={[0,viewport.height - 1,0]}>
+      <Html position={[0.5,viewport.height - 0.9,0]}>
+        <p>Timer:{Math.round(time)}</p>
+        <p>Hero:{heroPoint}</p>
+        <p>Cap:{modiPoint}</p>
         <button onClick={onClickPlayPause} >{isPaused?"Play":"Pause"}</button>
       </Html>
 
@@ -39,3 +57,5 @@ const Experience = () => {
 }
 
 export default Experience;
+
+

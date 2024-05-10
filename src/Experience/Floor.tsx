@@ -9,7 +9,7 @@ interface FloorProps {
 }
 
 const Floor = ({ defaultPos }: FloorProps) => {
-  const { isPaused } = useGameStore()
+  const { isPaused, speed } = useGameStore()
   const floorRef = useRef<Mesh>(null);
 
   // const colors = ["red", "cyan", "green", "purple", "violet", "green","red","blue"];
@@ -20,17 +20,19 @@ const Floor = ({ defaultPos }: FloorProps) => {
     
     if(isPaused) return;
 
-    floorRef.current.position.z +=  0.02
+    floorRef.current.position.z +=  speed
     
       
 
     const crntPos = floorRef.current.position.z
     if(crntPos > 4) {
-      floorRef.current.position.z = -7*2 + 1 + (crntPos - 1)
+      floorRef.current.position.z = -9*2 + 1 + (crntPos - 1)
     }
       
 
   })
+
+  const color  = (Math.abs(defaultPos)%2 == 1)?'#9800c2':'#e071fe'
 
   return (
     <>
@@ -41,7 +43,7 @@ const Floor = ({ defaultPos }: FloorProps) => {
         scale={[2, 2, 0]}
       >
         <planeGeometry />
-        <meshStandardMaterial color={defaultPos%2 == 1?'white':'black'} />
+        <meshStandardMaterial color={color} />
       </mesh>
     </>
   );
