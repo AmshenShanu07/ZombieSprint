@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react'
 import { useKeyboardControls } from '@react-three/drei';
 import { Controls } from '../App';
 import useGameStore from '../Hooks/useGameStore';
+import { Runner } from './Runner';
 
 const Hero = () => {
   const [sub] = useKeyboardControls<Controls>();
@@ -45,8 +46,9 @@ const Hero = () => {
   return (
     <>
       <mesh ref={heroRef} position={[0,0.12, 0]} name='hero' >
+        <Runner position-y={-0.115} />
         <capsuleGeometry args={[0.04, 0.08, 4, 8]} />
-        <meshStandardMaterial color='cyan' />
+        <meshPhongMaterial color="#fff" opacity={0} transparent />
       </mesh>
     </>
   )

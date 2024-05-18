@@ -1,5 +1,5 @@
 // import * as THREE from 'three';
-import { Html } from '@react-three/drei'
+import { Html, OrbitControls } from '@react-three/drei'
 import { useEffect, useState } from 'react';
 import { useThree } from '@react-three/fiber';
 
@@ -9,6 +9,9 @@ import Floor from './Floor';
 import CoinsGenerator from './Coins';
 import ObstacleGenerator from './Obstacle';
 import useGameStore from '../Hooks/useGameStore';
+import { Zombie } from './Zombie';
+import { Runner } from './Runner';
+
 
 const Experience = () => {
   const { viewport } = useThree();
@@ -33,17 +36,16 @@ const Experience = () => {
 
   return (
     <>
+    <OrbitControls/>
       <CoinsGenerator/>
       <ObstacleGenerator/>
       <Hero/>
       <Modi/>
-      {[-1,0,1,2,3,4,5,6,7,8,9].map((d,i) =>(
-        <Floor
-        key={i}
-        defaultPos={d}
-        debug={i == 0 || i === 6}
-        />
-      ))}
+      <Floor/>
+      
+      <Zombie/>
+      <Zombie position-x={-0.4} />
+      <Zombie position-x={0.4} />
 
       <Html position={[0.5,viewport.height - 0.9,0]}>
         <p>Timer:{Math.round(time)}</p>
