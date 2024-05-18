@@ -2,6 +2,7 @@ import { useFrame } from '@react-three/fiber';
 import { Fragment, useRef, useState } from 'react';
 import { Mesh, Box3 } from 'three'
 import useGameStore from '../Hooks/useGameStore';
+import { Zombie } from './Zombie';
 
 interface ObstacleProps {
   xPos: number
@@ -34,8 +35,8 @@ const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
     }
     
 
-    if(obstacleRef.current.position.z > 3)
-      scene.remove(obstacleRef.current)
+    // if(obstacleRef.current.position.z > 3)
+    //   scene.remove(obstacleRef.current)
 
   })
 
@@ -44,6 +45,7 @@ const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
       <mesh ref={obstacleRef} position={[xPos,-1,-13]} name='obstacle' >
         <boxGeometry args={[0.4,0.3,0.05]} />
         <meshStandardMaterial color={'#fa009e'} />
+        <Zombie/>
       </mesh>
     </>
   )
@@ -85,6 +87,7 @@ const ObstacleGenerator = () => {
     objectSpeed.current += speed;
 
   })
+  
   return (
     <>{coins.map((d,i) => {
         return <Fragment key={i} >{d}</Fragment>

@@ -1,49 +1,67 @@
-import { useFrame } from '@react-three/fiber';
+
 import { useRef } from 'react';
-import { Mesh } from 'three';
+import { Color, Mesh, RepeatWrapping } from 'three';
+import { useTexture } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
 import useGameStore from '../Hooks/useGameStore';
 
-interface FloorProps {
-  defaultPos: number;
-  debug?:boolean
-}
+const PLANE_SIZE = 100
+const color = new Color(0x000000)
 
-const Floor = ({ defaultPos }: FloorProps) => {
+const Floor = () => {
   const { isPaused, speed } = useGameStore()
-  const floorRef = useRef<Mesh>(null);
+  const floorOneRef = useRef<Mesh>(null);
+  const floorTwoRef = useRef<Mesh>(null);
+  const texture = useTexture('/textures/grid-red.png')
 
-  // const colors = ["red", "cyan", "green", "purple", "violet", "green","red","blue"];
-  // const randomIndex = Math.floor(Math.random() * colors.length);
+  texture.wrapS = texture.wrapT = RepeatWrapping
+  texture.repeat.set(PLANE_SIZE * 0.05, (PLANE_SIZE * 10) * 0.05)
+
 
   useFrame(() => {
-    if(!floorRef.current) return;
-    
-    if(isPaused) return;
+    if(!floorOneRef.current || !floorTwoRef.current) return;
 
-    floorRef.current.position.z +=  speed
-    
-      
+  if(!isPaused) {
+    floorOneRef.current.position.z += speed
+    floorTwoRef.current.position.z += speed
+  }
 
-    const crntPos = floorRef.current.position.z
-    if(crntPos > 4) {
-      floorRef.current.position.z = -9*2 + 1 + (crntPos - 1)
+
+    if(floorTwoRef.current.position.z >= 100){
+      console.log('2',floorTwoRef.current.position.z);
+      floorTwoRef.current.position.z = -floorTwoRef.current.position.z
     }
-      
-
+    
+    if(floorOneRef.current.position.z >= 100) {
+      floorOneRef.current.position.z = -100
+    }
+    
   })
 
-  const color  = (Math.abs(defaultPos)%2 == 1)?'#9800c2':'#e071fe'
+
 
   return (
     <>
-      <mesh
-        ref={floorRef}
-        position={[0, 0, -defaultPos*2]}
-        rotation-x={Math.PI * -0.5}
-        scale={[2, 2, 0]}
-      >
-        <planeGeometry />
-        <meshStandardMaterial color={color} />
+      <mesh ref={floorTwoRef} rotation-x={Math.PI * -0.5} position-z={-100} >
+        <planeGeometry args={[2,100]}/>
+        <meshStandardMaterial
+          map={texture}
+          color={color.set(0xFFFFFF)}
+          emissiveMap={texture}
+          emissive={color.set(0xFFFFFF)}
+          emissiveIntensity={1}
+        />
+      </mesh>
+
+      <mesh ref={floorOneRef} rotation-x={Math.PI * -0.5} >
+        <planeGeometry args={[2,100]}/>
+        <meshStandardMaterial
+          map={texture}
+          color={color.set(0xFFFFFF)}
+          emissiveMap={texture}
+          emissive={color.set(0xFFFFFF)}
+          emissiveIntensity={1}
+        />
       </mesh>
     </>
   );
