@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react'
+import { useEffect } from 'react'
 import { useKeyboardControls } from '@react-three/drei';
 import { Controls } from '../App';
 import useGameStore from '../Hooks/useGameStore';
@@ -7,11 +7,10 @@ import { Runner } from './Runner';
 const Hero = () => {
   const [sub] = useKeyboardControls<Controls>();
   const heroRef = useGameStore(state => state.hero);
-  // const heroRef = useRef<Mesh>(null);
 
    const handleHeroMovement = (dir: -1 | 1) => {
     if(!heroRef.current) return;
-
+    
     const crntPos = heroRef.current.position.x;
 
     if( (crntPos < 0 && dir == -1) || (crntPos > 0 && dir == 1)  ) return;
@@ -26,21 +25,27 @@ const Hero = () => {
   }
 
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     sub(
       (state) => state.left,
       (press) => {
+
         press && handleHeroMovement(-1)
       }
     );
     sub(
       (state) => state.right,
       (press) => {
+        // if(isPaused) return;
+
         press && handleHeroMovement(1);
       }
     );
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  },[]);
+
+
+
 
 
   return (
