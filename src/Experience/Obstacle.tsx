@@ -2,7 +2,6 @@ import { useFrame } from '@react-three/fiber';
 import { Fragment, useRef, useState } from 'react';
 import { Mesh, Box3 } from 'three'
 import useGameStore from '../Hooks/useGameStore';
-import { Zombie } from './Zombie';
 
 interface ObstacleProps {
   xPos: number
@@ -15,7 +14,7 @@ const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
 
 
 
-  useFrame(({ scene }) => {
+  useFrame(() => {
     
     if(!obstacleRef.current) return;
     if(!heroRef.current) return;
