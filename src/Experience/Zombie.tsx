@@ -22,26 +22,33 @@ type GLTFResult = GLTF & {
   animations: GLTFAction[];
 };
 
-type ActionName = "RunAnimation";
+type ActionName = 'RunAnimation' | 'ZombieIdel'
 interface GLTFAction extends THREE.AnimationClip {
   name: ActionName;
 }
 
 export function Zombie(props: JSX.IntrinsicElements["group"]) {
-  const { speed } = useGameStore()
+  const { speed, isPaused } = useGameStore()
   const group = useRef<THREE.Group>(null);
-  const { nodes, materials, animations } = useGLTF(
-    "/models/zombie.glb"
-  ) as GLTFResult;
+  const { nodes, materials, animations } = useGLTF("/models/zombie.glb") as GLTFResult;
   const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
-    if (!actions.RunAnimation) return;
+    if (!actions.RunAnimation || !actions.ZombieIdel) return;
     actions.RunAnimation.fadeOut(0.3);
     actions.RunAnimation.fadeIn(0.3);
-    actions.RunAnimation.play();
+
+    if(isPaused) {
+      actions.RunAnimation.stop()
+      actions.ZombieIdel.play()
+    } else {
+      actions.ZombieIdel.stop()
+      actions.RunAnimation.play();
+
+    }
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isPaused]);
 
   useEffect(() => {
     if(!actions.RunAnimation) return;

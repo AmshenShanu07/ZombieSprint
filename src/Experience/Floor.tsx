@@ -28,7 +28,6 @@ const Floor = () => {
 
 
     if(floorTwoRef.current.position.z >= 100){
-      console.log('2',floorTwoRef.current.position.z);
       floorTwoRef.current.position.z = -floorTwoRef.current.position.z
     }
     

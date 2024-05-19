@@ -2,6 +2,7 @@ import { useFrame } from '@react-three/fiber';
 import { Fragment, useRef, useState } from 'react';
 import { Mesh, Box3 } from 'three'
 import useGameStore from '../Hooks/useGameStore';
+import Grave from './Grave';
 
 interface ObstacleProps {
   xPos: number
@@ -11,18 +12,16 @@ const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
   const { speed, isPaused, setGameMode } = useGameStore()
   const obstacleRef = useRef<Mesh>(null);
   const heroRef = useGameStore(state => state.hero);
+  const randomRotation = useRef<number>(Math.random()<0.5?0:Math.PI);
 
 
 
-  useFrame(() => {
+  useFrame(({ scene }) => {
     
     if(!obstacleRef.current) return;
     if(!heroRef.current) return;
 
     if(isPaused) return;
-
-    if(obstacleRef.current.position.y < 0.15)
-      obstacleRef.current.position.y += 0.01 + speed
 
     obstacleRef.current.position.z += speed;
 
@@ -34,16 +33,16 @@ const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
     }
     
 
-    // if(obstacleRef.current.position.z > 3)
-    //   scene.remove(obstacleRef.current)
-
+    if(obstacleRef.current.position.z > 3)
+      scene.remove(obstacleRef.current)
   })
 
   return (
     <>
-      <mesh ref={obstacleRef} position={[xPos,-1,-13]} name='obstacle' >
+      <mesh ref={obstacleRef} position={[xPos,0.15,-17]} rotation-y={randomRotation.current} name='obstacle' >
+        <Grave/>
         <boxGeometry args={[0.4,0.3,0.05]} />
-        <meshStandardMaterial color={'#fa009e'} />
+        <meshPhongMaterial transparent opacity={0} />
       </mesh>
     </>
   )
