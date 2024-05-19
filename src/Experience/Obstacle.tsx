@@ -45,7 +45,6 @@ const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
       <mesh ref={obstacleRef} position={[xPos,-1,-13]} name='obstacle' >
         <boxGeometry args={[0.4,0.3,0.05]} />
         <meshStandardMaterial color={'#fa009e'} />
-        <Zombie/>
       </mesh>
     </>
   )

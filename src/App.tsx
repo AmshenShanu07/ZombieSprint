@@ -6,6 +6,7 @@ import { useMemo } from 'react'
 export enum Controls {
   left = 'left',
   right = 'right',
+  pausePlay = 'pausePlay'
 }
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
   const map = useMemo<KeyboardControlsEntry<Controls>[]>(()=>[
     { name: Controls.left, keys: ['ArrowLeft', 'KeyA'] },
     { name: Controls.right, keys: ['ArrowRight', 'KeyD'] },
+    { name: Controls.pausePlay, keys: ['Space'] }
   ], [])
 
   return (

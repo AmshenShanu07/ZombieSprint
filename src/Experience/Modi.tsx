@@ -1,8 +1,9 @@
 import { Raycaster, Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
 import useGameStore from '../Hooks/useGameStore';
+import { Zombie } from './Zombie';
 
-const ALERT_DISTANCE = 0.7;
+const ALERT_DISTANCE = 1;
 const Z_POSITION = 1.5;
 
 const Modi = () => {
@@ -12,41 +13,44 @@ const Modi = () => {
   const centerRay = new Raycaster()
   const rightRay = new Raycaster()
 
-  useFrame(({ scene, clock }) => {
+  leftRay.set(new Vector3(-0.4, 0.2, 1.5),new Vector3(0, 0, -1))
+  centerRay.set(new Vector3(0, 0.2, 1.5),new Vector3(0, 0, -1))
+  rightRay.set(new Vector3(0.4, 0.2, 1.5),new Vector3(0, 0, -1))
+
+  useFrame(({ scene }) => {
     if(!capRef.current) return;
-
-    const rayYpos = Math.abs(Math.sin(clock.elapsedTime * 2.2) * 0.08) + 0.05
-
-    leftRay.set(new Vector3(-0.4, rayYpos, Z_POSITION),new Vector3(0, 0, -1))
-    centerRay.set(new Vector3(0, rayYpos, Z_POSITION),new Vector3(0, 0, -1))
-    rightRay.set(new Vector3(0.4, rayYpos, Z_POSITION),new Vector3(0, 0, -1))
-
 
     const  lObjs = leftRay.intersectObjects(scene.children)
     const  cObjs = centerRay.intersectObjects(scene.children)
-    const  rObjs = rightRay.intersectObjects(scene.children)
+    const  rObjs = rightRay.intersectObjects(scene.children);
 
     const crntPos = capRef.current.position.x;
 
-    if(lObjs.length !==0 && lObjs[0].distance < ALERT_DISTANCE && lObjs[0].object.name === 'obstacle') {
+    const lTrue = lObjs.filter(d => d.distance < ALERT_DISTANCE && d.object.name === 'obstacle' )
+    const cTrue = cObjs.filter(d => d.distance < ALERT_DISTANCE && d.object.name === 'obstacle' )
+    const rTrue = rObjs.filter(d => d.distance < ALERT_DISTANCE && d.object.name === 'obstacle' )
+
+    
+
+    if(lObjs.length !==0 && lTrue.length!== 0) {
       capRef.current.position.x = crntPos < 0?0:crntPos;
       return;
-    } else if(cObjs.length && cObjs[0].distance < ALERT_DISTANCE && cObjs[0].object.name === 'obstacle') {
+    } else if(cObjs.length && cTrue.length!== 0) {
       const possibleMove = [-1,1]
       capRef.current.position.x = crntPos === 0?0.4 * possibleMove[Math.floor(Math.random() * possibleMove.length)]:crntPos
       return;
-    } else if (rObjs.length !== 0 && rObjs[0].distance < ALERT_DISTANCE && rObjs[0].object.name === 'obstacle') {
+    } else if (rObjs.length !== 0 && rTrue.length !== 0) {
       capRef.current.position.x = crntPos > 0?0:crntPos;
       return;
     }
     
-    if(lObjs.length && lObjs[0].distance < ALERT_DISTANCE && lObjs[0].object.name === 'coin') {
-      capRef.current.position.x = -0.4;
-    } else if(cObjs.length && cObjs[0].distance < ALERT_DISTANCE && cObjs[0].object.name === 'coin') {
-      capRef.current.position.x = 0;
-    } else if (rObjs.length && rObjs[0].distance < ALERT_DISTANCE && rObjs[0].object.name === 'coin') {
-      capRef.current.position.x = 0.4;
-    }
+    // if(lObjs.length && lObjs[0].distance < ALERT_DISTANCE && lObjs[0].object.name === 'coin') {
+    //   capRef.current.position.x = -0.4;
+    // } else if(cObjs.length && cObjs[0].distance < ALERT_DISTANCE && cObjs[0].object.name === 'coin') {
+    //   capRef.current.position.x = 0;
+    // } else if (rObjs.length && rObjs[0].distance < ALERT_DISTANCE && rObjs[0].object.name === 'coin') {
+    //   capRef.current.position.x = 0.4;
+    // }
 
   });
 
@@ -55,8 +59,9 @@ const Modi = () => {
   return (
     <>
       <mesh ref={capRef} position={[0,0.12, Z_POSITION]} name='modi' >
+        <Zombie/>
         <capsuleGeometry args={[0.04, 0.08, 4, 8]} />
-        <meshStandardMaterial color='brown' />
+        <meshPhongMaterial transparent opacity={0} />
       </mesh>
     </>
   )

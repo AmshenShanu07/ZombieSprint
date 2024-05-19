@@ -11,7 +11,7 @@ const Hero = () => {
 
    const handleHeroMovement = (dir: -1 | 1) => {
     if(!heroRef.current) return;
-
+    
     const crntPos = heroRef.current.position.x;
 
     if( (crntPos < 0 && dir == -1) || (crntPos > 0 && dir == 1)  ) return;

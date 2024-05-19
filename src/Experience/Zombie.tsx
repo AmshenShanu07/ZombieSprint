@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.2.16 ./public/models/zombie.glb --types -k
 */
 
 import * as THREE from "three";
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import useGameStore from '../Hooks/useGameStore';
@@ -28,33 +28,39 @@ interface GLTFAction extends THREE.AnimationClip {
 }
 
 export function Zombie(props: JSX.IntrinsicElements["group"]) {
-  const { speed, isPaused } = useGameStore();
+  const { speed } = useGameStore()
   const group = useRef<THREE.Group>(null);
-  const { nodes, materials, animations, scene } = useGLTF("/models/zombie.glb") as GLTFResult;
+  const { nodes, materials, animations } = useGLTF(
+    "/models/zombie.glb"
+  ) as GLTFResult;
   const { actions } = useAnimations(animations, group);
 
-  useLayoutEffect(() =>{
-    if(!actions.RunAnimation) return;
+  useEffect(() => {
+    if (!actions.RunAnimation) return;
     actions.RunAnimation.fadeOut(0.3);
     actions.RunAnimation.fadeIn(0.3);
     actions.RunAnimation.play();
-  },[])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // useEffect(() => {
-  //   if(!actions.RunAnimation) return;
+  useEffect(() => {
+    if(!actions.RunAnimation) return;
     
-  //   actions.RunAnimation.timeScale = 1 + (speed * 1.8);
+    actions.RunAnimation.timeScale = 1 + (speed * 2);
     
-  // },[actions, speed]);
-  
+  },[actions, speed]);
 
-  
+
   return (
-    <group ref={group} {...props} scale={0.1} onClick={() => console.log('ping')} >
-      <group name="Scene">
-        <group scale={0.64}>
-          <primitive object={scene.clone()} />
-          <primitive object={nodes.RightFootCtrl} />
+    <group
+      ref={group}
+      {...props}
+      dispose={null}
+      scale={0.1}
+      rotation-y={Math.PI}
+      position-y={-0.118}
+    >
+        <mesh scale={0.45} >
           <primitive object={nodes.HipsCtrl} />
           <skinnedMesh
             name="characterMedium001"
@@ -62,8 +68,7 @@ export function Zombie(props: JSX.IntrinsicElements["group"]) {
             material={materials["skin.001"]}
             skeleton={nodes.characterMedium001.skeleton}
           />
-        </group>
-      </group>
+        </mesh>
     </group>
   );
 }

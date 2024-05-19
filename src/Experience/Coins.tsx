@@ -1,7 +1,8 @@
 import { useFrame } from '@react-three/fiber';
 import { Fragment, useRef, useState } from 'react';
-import { Mesh, Box3 } from 'three'
+import { Box3, Group } from 'three'
 import useGameStore from '../Hooks/useGameStore';
+import { Med } from './Med';
 
 interface CoinProps {
   xPos: number
@@ -9,7 +10,7 @@ interface CoinProps {
 
 const Coin = ({ xPos }:CoinProps):JSX.Element => {
   const { speed, isPaused, heroPoint, modiPoint, setHeroPoint, setModiPoint } = useGameStore();
-  const coinRef = useRef<Mesh>(null);
+  const coinRef = useRef<Group>(null);
   const [isIntersected, setIsIntersected] = useState<boolean>(false);
   const heroRef = useGameStore(state => state.hero);
   const capRef = useGameStore(state => state.cap)
@@ -21,7 +22,8 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
     if(!heroRef.current || !capRef.current) return;
 
     coinRef.current.position.y = 
-      Math.abs(Math.sin(clock.elapsedTime * 2.2) * 0.08) + 0.05
+      Math.abs(Math.sin(clock.elapsedTime * 2.5) * 0.03) + 0.07;
+    coinRef.current.rotation.y += 0.03
 
     if(isPaused) return;
     
@@ -50,12 +52,9 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
   })
 
   return (
-    <>
-      <mesh ref={coinRef} position={[xPos,0.1,-15]} name="coin" >
-        <sphereGeometry args={[0.05,12,12]} />
-        <meshStandardMaterial color={'yellow'} />
-      </mesh>
-    </>
+    <group ref={coinRef} position={[xPos,0.1,-15]} >
+      <Med name="coin" scale={0.5} rotation-z={Math.PI * 0.2} />
+    </group>
   )
 }
 
