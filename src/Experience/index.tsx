@@ -1,5 +1,5 @@
 // import * as THREE from 'three';
-import { Html, OrbitControls, useKeyboardControls } from '@react-three/drei'
+import { Html, OrbitControls, PositionalAudio, useKeyboardControls } from '@react-three/drei'
 import { useEffect, useState } from 'react';
 import { useThree } from '@react-three/fiber';
 
@@ -10,13 +10,17 @@ import CoinsGenerator from './Coins';
 import ObstacleGenerator from './Obstacle';
 import useGameStore from '../Hooks/useGameStore';
 import { Controls } from '../App';
+import Boundry from './Stones';
 
 
 const Experience = () => {
   const { viewport } = useThree();
   const [sub] = useKeyboardControls<Controls>()
   const { speed, isPaused, modiPoint, heroPoint, setGameMode,incGameSpeed } = useGameStore();
-  const onClickPlayPause = () => setGameMode(!isPaused);
+
+  const onClickPlayPause = () => {
+    setGameMode(!isPaused)
+  };
 
   const [time, setTime] = useState<number>(0);
 
@@ -24,7 +28,7 @@ const Experience = () => {
     const intervalId = setInterval(() => {
       if(!isPaused) {
         setTime(prevTime => (prevTime + 1 + speed));
-        speed < 0.15 && incGameSpeed()
+        speed < 0.2 && incGameSpeed()
       } else {
         setTime(prevTime => prevTime);
       }
@@ -49,7 +53,9 @@ const Experience = () => {
       <Hero/>
       <Modi/>
       <Floor/>
-
+      <Boundry/>
+      {!isPaused && <PositionalAudio url='/audios/run.mp3' autoplay distance={1} loop />}
+      {isPaused && <PositionalAudio url='/audios/bg.mp3' autoplay distance={1} loop />}
       <Html position={[0.5,viewport.height - 0.9,0]}>
         <p>Timer:{Math.round(time)}</p>
         <p>Hero:{heroPoint}</p>

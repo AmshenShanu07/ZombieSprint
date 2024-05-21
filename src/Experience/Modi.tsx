@@ -1,13 +1,13 @@
-import { Raycaster, Vector3 } from 'three';
+import { Mesh, Raycaster, Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
-import useGameStore from '../Hooks/useGameStore';
 import { Zombie } from './Zombie';
+import { useRef } from 'react';
 
 const ALERT_DISTANCE = 1;
 const Z_POSITION = 1.5;
 
 const Modi = () => {
-  const  capRef = useGameStore(state => state.cap);
+  const  capRef = useRef<Mesh>(null);
 
   const leftRay = new Raycaster()
   const centerRay = new Raycaster()

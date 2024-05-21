@@ -21,9 +21,14 @@ const App = () => {
     <KeyboardControls map={map} >
       <Canvas shadows camera={{ position: [0, 0.6, 3], fov: 30 }} >
         {/* <Environment background blur={0.1} preset="night" /> */}
-        <color attach="background" args={['#8c332d']} />
-        <fog attach='fog' args={['#8c332d',10,15]} />
+        <color attach="background" args={['#383F42']} />
+        <fog attach='fog' args={['#383F42',10,15]} />
         <ambientLight intensity={2} />
+        <directionalLight 
+          intensity={1.5} 
+          color={'#ffffff'} 
+          position={[0,3,1]}
+        />
         <Experience/>
       </Canvas>
       <Loader/>

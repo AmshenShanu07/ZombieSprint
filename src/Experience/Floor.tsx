@@ -11,29 +11,31 @@ const color = new Color(0x000000)
 const Floor = () => {
   const { isPaused, speed } = useGameStore()
   const floorOneRef = useRef<Mesh>(null);
-  const floorTwoRef = useRef<Mesh>(null);
-  const texture = useTexture('/textures/grid-red.png')
+  const texture = useTexture('/textures/map2.png')
 
+  // texture.rotation = Math.PI * 0.5
   texture.wrapS = texture.wrapT = RepeatWrapping
-  texture.repeat.set(PLANE_SIZE * 0.05, (PLANE_SIZE * 10) * 0.05)
+  texture.repeat.set((PLANE_SIZE) * 0.05, (PLANE_SIZE * 25) * 0.05)
 
 
   useFrame(() => {
-    if(!floorOneRef.current || !floorTwoRef.current) return;
+    if(!floorOneRef.current) return;
 
-  if(!isPaused) {
-    floorOneRef.current.position.z += speed
-    floorTwoRef.current.position.z += speed
+    
+    if(!isPaused) {
+    texture.offset.y += speed * 1.5
+    // floorOneRef.current.position.z += speed
+    // floorTwoRef.current.position.z += speed
   }
 
 
-    if(floorTwoRef.current.position.z >= 100){
-      floorTwoRef.current.position.z = -floorTwoRef.current.position.z
-    }
+    // if(floorTwoRef.current.position.z >= 100){
+    //   floorTwoRef.current.position.z = -floorTwoRef.current.position.z
+    // }
     
-    if(floorOneRef.current.position.z >= 100) {
-      floorOneRef.current.position.z = -100
-    }
+    // if(floorOneRef.current.position.z >= 100) {
+    //   floorOneRef.current.position.z = -100
+    // }
     
   })
 
@@ -41,17 +43,6 @@ const Floor = () => {
 
   return (
     <>
-      <mesh ref={floorTwoRef} rotation-x={Math.PI * -0.5} position-z={-100} >
-        <planeGeometry args={[2,100]}/>
-        <meshStandardMaterial
-          map={texture}
-          color={color.set(0xFFFFFF)}
-          emissiveMap={texture}
-          emissive={color.set(0xFFFFFF)}
-          emissiveIntensity={1}
-        />
-      </mesh>
-
       <mesh ref={floorOneRef} rotation-x={Math.PI * -0.5} >
         <planeGeometry args={[2,100]}/>
         <meshStandardMaterial
