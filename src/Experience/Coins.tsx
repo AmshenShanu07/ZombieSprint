@@ -9,17 +9,18 @@ interface CoinProps {
 }
 
 const Coin = ({ xPos }:CoinProps):JSX.Element => {
-  const { speed, isPaused, heroPoint, modiPoint, setHeroPoint, setModiPoint } = useGameStore();
+  const { speed, isPaused, heroPoint, setHeroPoint } = useGameStore();
   const coinRef = useRef<Group>(null);
   const [isIntersected, setIsIntersected] = useState<boolean>(false);
   const heroRef = useGameStore(state => state.hero);
-  const capRef = useGameStore(state => state.cap)
+  const coinAudio = new Audio('/audios/coin.wav')
+  // const capRef = useGameStore(state => state.cap)
 
 
 
   useFrame(({ clock, scene }) => {
     if(!coinRef.current) return;
-    if(!heroRef.current || !capRef.current) return;
+    if(!heroRef.current) return;
 
     coinRef.current.position.y = 
       Math.abs(Math.sin(clock.elapsedTime * 2.5) * 0.03) + 0.07;
@@ -29,21 +30,17 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
     
     coinRef.current.position.z += speed
 
-    const modiBox = new Box3().setFromObject(capRef.current);
+    // const modiBox = new Box3().setFromObject(capRef.current);
     const heroBox = new Box3().setFromObject(heroRef.current)
     const coinBox = new Box3().setFromObject(coinRef.current);
 
     if(coinBox.intersectsBox(heroBox) && !isIntersected) {
+      coinAudio.play();
       setIsIntersected(true);
       setHeroPoint(heroPoint+1)
       scene.remove(coinRef.current)
     }
     
-    if(coinBox.intersectsBox(modiBox) && !isIntersected) {
-      setIsIntersected(true);
-      setModiPoint(modiPoint+1)
-      scene.remove(coinRef.current)
-    }
     
 
     if(coinRef.current.position.z > 3)

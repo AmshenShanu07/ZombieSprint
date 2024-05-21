@@ -1,5 +1,5 @@
 // import * as THREE from 'three';
-import { Html, OrbitControls, useKeyboardControls } from '@react-three/drei'
+import { Html, OrbitControls, PositionalAudio, useKeyboardControls } from '@react-three/drei'
 import { useEffect, useState } from 'react';
 import { useThree } from '@react-three/fiber';
 
@@ -16,7 +16,10 @@ const Experience = () => {
   const { viewport } = useThree();
   const [sub] = useKeyboardControls<Controls>()
   const { speed, isPaused, modiPoint, heroPoint, setGameMode,incGameSpeed } = useGameStore();
-  const onClickPlayPause = () => setGameMode(!isPaused);
+
+  const onClickPlayPause = () => {
+    setGameMode(!isPaused)
+  };
 
   const [time, setTime] = useState<number>(0);
 
@@ -49,7 +52,8 @@ const Experience = () => {
       <Hero/>
       <Modi/>
       <Floor/>
-
+      {!isPaused && <PositionalAudio url='/audios/run.mp3' autoplay distance={1} loop />}
+      {isPaused && <PositionalAudio url='/audios/bg.mp3' autoplay distance={1} loop />}
       <Html position={[0.5,viewport.height - 0.9,0]}>
         <p>Timer:{Math.round(time)}</p>
         <p>Hero:{heroPoint}</p>

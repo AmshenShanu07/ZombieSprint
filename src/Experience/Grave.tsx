@@ -20,7 +20,7 @@ function Grave(props: JSX.IntrinsicElements['group']) {
         name="grave_A_destroyed" 
         geometry={nodes.grave_A_destroyed.geometry} 
         material={materials.HalloweenBits} 
-        scale={17}
+        scale={15}
       />
     </group>
   )
