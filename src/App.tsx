@@ -24,6 +24,11 @@ const App = () => {
         <color attach="background" args={['#383F42']} />
         <fog attach='fog' args={['#383F42',10,15]} />
         <ambientLight intensity={2} />
+        <directionalLight 
+          intensity={1.5} 
+          color={'#ffffff'} 
+          position={[0,3,1]}
+        />
         <Experience/>
       </Canvas>
       <Loader/>

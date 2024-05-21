@@ -18,7 +18,7 @@ const useGameStore = create<GameStoreType>((set) =>({
   heroPoint: 0,
   modiPoint: 0,
   isPaused: true,
-  speed: 0.02,
+  speed: 0.03,
   gameOver: false,
   hero: createRef<Mesh>(),
   setGameMode:(isPaused:boolean) => set((state)=>({ ...state, isPaused })),

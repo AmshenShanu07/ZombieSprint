@@ -10,6 +10,7 @@ import CoinsGenerator from './Coins';
 import ObstacleGenerator from './Obstacle';
 import useGameStore from '../Hooks/useGameStore';
 import { Controls } from '../App';
+import Boundry from './Stones';
 
 
 const Experience = () => {
@@ -27,7 +28,7 @@ const Experience = () => {
     const intervalId = setInterval(() => {
       if(!isPaused) {
         setTime(prevTime => (prevTime + 1 + speed));
-        speed < 0.15 && incGameSpeed()
+        speed < 0.2 && incGameSpeed()
       } else {
         setTime(prevTime => prevTime);
       }
@@ -52,6 +53,7 @@ const Experience = () => {
       <Hero/>
       <Modi/>
       <Floor/>
+      <Boundry/>
       {!isPaused && <PositionalAudio url='/audios/run.mp3' autoplay distance={1} loop />}
       {isPaused && <PositionalAudio url='/audios/bg.mp3' autoplay distance={1} loop />}
       <Html position={[0.5,viewport.height - 0.9,0]}>
