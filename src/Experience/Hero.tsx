@@ -7,6 +7,7 @@ import { Runner } from './Runner';
 const Hero = () => {
   const [sub] = useKeyboardControls<Controls>();
   const heroRef = useGameStore(state => state.hero);
+  const isGameOver = useGameStore(state => state.gameOver);
 
    const handleHeroMovement = (dir: -1 | 1) => {
     if(!heroRef.current) return;

@@ -1,3 +1,13 @@
+@font-face {
+  font-family: caesar;
+  src: url(/fonts/CaesarDressing-Regular.ttf);
+}
+
+@font-face {
+  font-family: marker;
+  src: url(/fonts/PermanentMarker-Regular.ttf);
+}
+
 #root {
   width: 100vw;
   height: 100vh;

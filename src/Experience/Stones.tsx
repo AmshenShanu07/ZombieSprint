@@ -4,6 +4,7 @@ import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { Fragment } from 'react/jsx-runtime'
 import { useFrame } from '@react-three/fiber';
+import useGameStore from '../Hooks/useGameStore';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -21,21 +22,24 @@ type GLTFResult = GLTF & {
 
 
 function Boundry(props: JSX.IntrinsicElements['group']) {
+  const { isPaused } = useGameStore();
+
   const { nodes, materials } = useGLTF('/models/stones.glb') as GLTFResult;
   const grpRef = useRef<THREE.Group>(null);
 
   useFrame(({ clock }) => {
     if(!grpRef.current) return;
-    console.log(clock.elapsedTime % 10);
+    // console.log(clock.elapsedTime % 10);
     
-    grpRef.current.position.z = ((clock.elapsedTime * 2.5) % 30) + 15;
+    if(!isPaused)
+    grpRef.current.position.z = ((clock.elapsedTime * 2.5) % 4) + 2;
 
   })
 
 
   return (
     <group {...props} dispose={null} position-z={2} ref={grpRef} >
-      {(new Array(100).fill(1)).map((_,i)=>(
+      {(new Array(20).fill(1)).map((_,i)=>(
         <Fragment key={i}>
           <group position-x={-1} position-z={i * -1.02} scale={0.2} >
             <mesh name="Cube" geometry={nodes.Cube.geometry} material={materials['Material.001']} scale={0.5} />

@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import { Mesh, Box3 } from 'three'
 import useGameStore from '../Hooks/useGameStore';
 import Grave from './Grave';
@@ -9,13 +9,11 @@ interface ObstacleProps {
 }
 
 const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
-  const { speed, isPaused, setGameMode } = useGameStore()
+  const { speed, isPaused, setGameMode, setGameOver } = useGameStore()
   const obstacleRef = useRef<Mesh>(null);
   const heroRef = useGameStore(state => state.hero);
   const randomRotation = useRef<number>(Math.random()<0.5?0:Math.PI);
   const deadAudio = new Audio('/audios/dead.wav')
-
-
 
   useFrame(({ scene }) => {
     
@@ -31,6 +29,7 @@ const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
 
     if(coinBox.intersectsBox(heroBox)) {
       deadAudio.play();
+      setGameOver();
       setGameMode(true)
     }
     
@@ -52,7 +51,7 @@ const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
 
 
 const ObstacleGenerator = () => {
-  const { isPaused, speed } = useGameStore();
+  const { isPaused, speed, startGame } = useGameStore();
   const objectSpeed = useRef<number>(0);
   const [hold, setHold] = useState<boolean>(false);
   const [coins, setCoins] = useState<JSX.Element[]>([])
@@ -85,7 +84,16 @@ const ObstacleGenerator = () => {
     
     objectSpeed.current += speed;
 
-  })
+  });
+
+  useLayoutEffect(() => {
+    if(startGame) {
+      setIndex(0);
+      setCoins([]);
+      setHold(false);
+      objectSpeed.current = 0;
+    }
+  },[startGame]);
   
   return (
     <>{coins.map((d,i) => {

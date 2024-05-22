@@ -1,7 +1,6 @@
 // import * as THREE from 'three';
-import { Html, OrbitControls, PositionalAudio, useKeyboardControls } from '@react-three/drei'
-import { useEffect, useState } from 'react';
-import { useThree } from '@react-three/fiber';
+import { useKeyboardControls } from '@react-three/drei'
+import { useEffect } from 'react';
 
 import Modi from './Modi';
 import Hero from './Hero';
@@ -11,57 +10,57 @@ import ObstacleGenerator from './Obstacle';
 import useGameStore from '../Hooks/useGameStore';
 import { Controls } from '../App';
 import Boundry from './Stones';
+import Sound from './Sound';
 
 
 const Experience = () => {
-  const { viewport } = useThree();
   const [sub] = useKeyboardControls<Controls>()
-  const { speed, isPaused, modiPoint, heroPoint, setGameMode,incGameSpeed } = useGameStore();
+  const { isPaused, gameOver, startGame, setGameMode, setStartGame } = useGameStore();
 
-  const onClickPlayPause = () => {
-    setGameMode(!isPaused)
-  };
+  // const onClickPlayPause = () => {
+  //   setGameMode(!isPaused)
+  // };
 
-  const [time, setTime] = useState<number>(0);
+  // const onStartStop = () => {
+  //   if(startGame) {
+  //     setGameOver()
+  //   } else {
+  //     setStartGame();
+  //   }
+  // }
+
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if(!isPaused) {
-        setTime(prevTime => (prevTime + 1 + speed));
-        speed < 0.2 && incGameSpeed()
-      } else {
-        setTime(prevTime => prevTime);
-      }
-    }, 500);
-
     sub(state => state.pausePlay,(p) => {
-      if(!p) {
-        setGameMode(!isPaused)
-      }
+      if(p) return;
+      
+      if(gameOver || !startGame) 
+        return setStartGame();
+
+      setGameMode(!isPaused)
+      
     })
 
-    return () => clearInterval(intervalId);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPaused,speed]);
+  }, [isPaused]);
 
 
   return (
     <>
-      <OrbitControls/>
+      {/* <OrbitControls/> */}
       <CoinsGenerator/>
       <ObstacleGenerator/>
       <Hero/>
       <Modi/>
       <Floor/>
       <Boundry/>
-      {!isPaused && <PositionalAudio url='/audios/run.mp3' autoplay distance={1} loop />}
-      {isPaused && <PositionalAudio url='/audios/bg.mp3' autoplay distance={1} loop />}
-      <Html position={[0.5,viewport.height - 0.9,0]}>
+      <Sound/>
+      {/* <Html position={[0.5,viewport.height - 0.9,0]}>
         <p>Timer:{Math.round(time)}</p>
         <p>Hero:{heroPoint}</p>
-        <p>Cap:{modiPoint}</p>
-        <button onClick={onClickPlayPause} >{isPaused?"Play":"Pause"}</button>
-      </Html>
+        <button onClick={onStartStop} >{startGame?"Restart":"Start"}</button>
+        <button onClick={onClickPlayPause} >{isPaused?"Resume":"Pause"}</button>
+      </Html> */}
     </>
   )
 }
