@@ -13,7 +13,6 @@ const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
   const obstacleRef = useRef<Mesh>(null);
   const heroRef = useGameStore(state => state.hero);
   const randomRotation = useRef<number>(Math.random()<0.5?0:Math.PI);
-  const deadAudio = new Audio('/audios/dead.wav')
 
   useFrame(({ scene }) => {
     
@@ -28,7 +27,6 @@ const Obstacle = ({ xPos }:ObstacleProps):JSX.Element => {
     const coinBox = new Box3().setFromObject(obstacleRef.current);
 
     if(coinBox.intersectsBox(heroBox)) {
-      deadAudio.play();
       setGameOver();
       setGameMode(true)
     }

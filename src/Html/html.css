@@ -2,10 +2,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  /* background-color: red; */
   width: 100vw;
   height: 100vh;
-  /* z-index: 10; */
 }
 
 .hud_con {

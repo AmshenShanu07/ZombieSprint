@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useLoader, useThree } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Audio, AudioListener, AudioLoader } from 'three';
 import useGameStore from '../Hooks/useGameStore';
 
@@ -13,7 +13,7 @@ const Sound = () => {
   const deadSound = useRef<Audio>(null);
   const [listner] = useState(() => new AudioListener());
 
-  const { isPaused, heroPoint } = useGameStore();
+  const { isPaused, heroPoint, mute, gameOver } = useGameStore();
 
   const bgAudio = useLoader(AudioLoader,'/audios/bg.mp3')
   const runAudio = useLoader(AudioLoader,'/audios/run.mp3')
@@ -52,21 +52,44 @@ const Sound = () => {
   },[isPaused])
 
   useEffect(() => {
+    if(gameOver)
+      deadSound.current?.play() 
+  },[gameOver]);
+  
+  useEffect(() => {
     if(heroPoint)
       coinSound.current?.play() 
-  },[heroPoint])
+  },[heroPoint]);
+
+
+  //Mute And UnMute
+  useEffect(() => {
+    if(mute) {
+      deadSound.current?.setVolume(0)
+      coinSound.current?.setVolume(0)
+      runSound.current?.setVolume(0);
+      bgSound.current?.setVolume(0);
+    } else {
+      deadSound.current?.setVolume(0.5)
+      coinSound.current?.setVolume(1)
+      runSound.current?.setVolume(0.5);
+      bgSound.current?.setVolume(0.8);
+    }
+  },[mute])
 
   return (
-    <group>
-      {/* @ts-ignore */}
-      <audio ref={bgSound} args={[listner]}  />
-      {/* @ts-ignore */}
-      <audio ref={runSound} args={[listner]}  />
-      {/* @ts-ignore */}
-      <audio ref={coinSound} args={[listner]}  />
-      {/* @ts-ignore */}
-      <audio ref={deadSound} args={[listner]}  />
-    </group>
+    <Suspense>
+      <group>
+        {/* @ts-ignore */}
+        <audio ref={bgSound} args={[listner]}  />
+        {/* @ts-ignore */}
+        <audio ref={runSound} args={[listner]}  />
+        {/* @ts-ignore */}
+        <audio ref={coinSound} args={[listner]}  />
+        {/* @ts-ignore */}
+        <audio ref={deadSound} args={[listner]}  />
+      </group>
+    </Suspense>
   )
 }
 
