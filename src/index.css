@@ -1,3 +1,20 @@
+@font-face {
+  font-family: caesar;
+  src: url(/fonts/CaesarDressing-Regular.ttf);
+}
+
+@font-face {
+  font-family: marker;
+  src: url(/fonts/PermanentMarker-Regular.ttf);
+}
+
+* {
+  -webkit-tap-highlight-color:transparent;
+  -moz-tap-highlight-color:transparent;
+  -o-tap-highlight-color:transparent;
+  tap-highlight-color:transparent;
+}
+
 #root {
   width: 100vw;
   height: 100vh;

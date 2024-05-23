@@ -52,6 +52,8 @@ const Floor = () => {
           emissive={color.set(0xFFFFFF)}
           emissiveIntensity={1}
         />
+        {/* {!isPaused && <PositionalAudio url='/audios/run.mp3' autoplay distance={1} loop />}
+        {isPaused && <PositionalAudio url='/audios/bg.mp3' autoplay distance={1} loop />} */}
       </mesh>
     </>
   );

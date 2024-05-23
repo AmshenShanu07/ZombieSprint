@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import { Box3, Group } from 'three'
 import useGameStore from '../Hooks/useGameStore';
 import { Med } from './Med';
@@ -13,7 +13,6 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
   const coinRef = useRef<Group>(null);
   const [isIntersected, setIsIntersected] = useState<boolean>(false);
   const heroRef = useGameStore(state => state.hero);
-  const coinAudio = new Audio('/audios/coin.wav')
   // const capRef = useGameStore(state => state.cap)
 
 
@@ -30,12 +29,10 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
     
     coinRef.current.position.z += speed
 
-    // const modiBox = new Box3().setFromObject(capRef.current);
     const heroBox = new Box3().setFromObject(heroRef.current)
     const coinBox = new Box3().setFromObject(coinRef.current);
 
-    if(coinBox.intersectsBox(heroBox) && !isIntersected) {
-      coinAudio.play();
+    if(coinBox.intersectsBox(heroBox) && !isIntersected) { 
       setIsIntersected(true);
       setHeroPoint(heroPoint+1)
       scene.remove(coinRef.current)
@@ -57,7 +54,7 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
 
 
 const CoinsGenerator = () => {
-  const { isPaused, speed } = useGameStore();
+  const { isPaused, speed, startGame } = useGameStore();
   const objSpeed = useRef<number>(0);
   const [hold, setHold] = useState<boolean>(false);
   const [coins, setCoins] = useState<JSX.Element[]>([])
@@ -89,7 +86,17 @@ const CoinsGenerator = () => {
     
     objSpeed.current += speed;
 
-  })
+  });
+
+  useLayoutEffect(() => {
+    if(startGame) {
+      setIndex(0);
+      setCoins([]);
+      setHold(false);
+      objSpeed.current = 0;
+    }
+  },[startGame]);
+
   return (
     <>{coins.map((d,i) => {
         return <Fragment key={i} >{d}</Fragment>

@@ -1,0 +1,42 @@
+.overlay_con {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.hud_con {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+}
+
+.hud_title {
+  font-family: caesar;
+  font-size: 32px;
+  margin: 0;
+  transform: rotateZ(-10deg);
+  color: #7FDC68;
+}
+
+.hud_text {
+  font-family: marker;
+  font-size: 62px;
+  margin-top: 0px;
+  margin-bottom: 30px;
+  transform: rotateZ(-10deg);
+  color: #FF5C00;
+}
+
+.game_mode {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  cursor: pointer;
+}
+
+.play_pause {
+  width: 50px;
+  height: 50px;
+}

@@ -1,0 +1,111 @@
+.banner_con {
+  width: 100vw;
+  height: 100vh;
+  background-color: #383f42;
+  z-index: 3;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.banner_blink {
+  animation: blink 3s linear infinite;
+}
+
+.banner_img {
+  width: 35%;
+}
+
+.game_content {
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.start_btn { 
+  cursor: pointer;
+}
+
+.start_btn:hover {
+  color: white;
+  text-shadow: 0 0 15px #FF0000;
+}
+
+.start_text, .start_underline {
+  font-family: marker;
+  font-size: 78px;
+  color: #7FDC68;
+  margin: 0;
+}
+
+.start_underline {
+  color: #FF5C00;
+  margin-top: -5.5rem;
+  transform: rotateZ(-5deg);
+}
+
+.music_btn {
+  font-size: 32px;
+  font-family: marker;
+  cursor: pointer;
+  color: #FF0000;
+}
+
+.music_btn:hover {
+  color: white;
+  text-shadow: 0 0 15px #FF0000;
+}
+
+.controls_info {
+  font-size: 26px;
+  font-family: caesar;
+  color: #FF5C00;
+  text-align: center;
+}
+
+.creator {
+  font-family: caesar;
+  color: #7FDC68;
+}
+.creator:hover {
+  color: white;
+  text-shadow: 0 0 15px #FF0000;
+}
+
+.loader_con {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+.loader {
+  height: 25px;
+  width: 200px;
+  border-radius: 50px;
+  overflow: hidden;
+  border: 3px solid #FF5C00;
+}
+
+.load_progress {
+  height: 100%;
+  width: 30%;
+  border-radius: 1000px;
+  background-color: #7FDC68;
+}
+
+.percentage {
+  font-family: caesar;
+  color: #FF5C00;
+  margin-top: 10px;
+  font-size: 42px;
+}
+
+@keyframes blink{
+  0%{background-color: #383f42;}
+  50%{background-color: #383f42bd;}
+  100%{background-color: #383f42;}
+}
