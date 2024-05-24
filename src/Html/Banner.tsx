@@ -2,18 +2,17 @@ import { useProgress } from '@react-three/drei';
 import useGameStore from '../Hooks/useGameStore';
 import './Banner.css';
 
+
+
 const Banner = () => {
+  const isMobile = innerWidth <= 700
+
   const { loaded, total } = useProgress();
   const { mute, startGame, setMute, setStartGame } = useGameStore();
 
   const toggleMute = () => {
     setMute(!mute);
   }
-
-  // useEffect(() => {
-  //   console.log((loaded/total)*100);
-    
-  // },[loaded])
 
   if(startGame) return <></>
   
@@ -45,11 +44,17 @@ const Banner = () => {
           <h2 className='music_btn' onClick={toggleMute} >
             Turn Music {mute?'On':'Off'}
           </h2>
+          {!isMobile?
           <h2 className='controls_info' >
             Controls <br />
             {'<- a / d ->'} <br />
             Space to Pause/Play
-          </h2>
+          </h2>:
+          <h2 className='controls_info' >
+            Controls <br />
+            {'<- Swipe ->'} <br />
+            Space to Pause/Play
+          </h2>}
           <h1 className='creator'>Amshen Yesudas</h1>
         </> }
       </div>

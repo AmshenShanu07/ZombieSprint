@@ -53,7 +53,7 @@ export function Zombie(props: JSX.IntrinsicElements["group"]) {
   useEffect(() => {
     if(!actions.RunAnimation) return;
     
-    actions.RunAnimation.timeScale = 1 + (speed * 2);
+    actions.RunAnimation.timeScale = 1 + (speed * 2.3);
     
   },[actions, speed]);
 
@@ -61,11 +61,11 @@ export function Zombie(props: JSX.IntrinsicElements["group"]) {
   return (
     <group
       ref={group}
-      {...props}
       dispose={null}
       scale={0.1}
       rotation-y={Math.PI}
       position-y={-0.118}
+      {...props}
     >
         <mesh scale={0.45} >
           <primitive object={nodes.HipsCtrl} />

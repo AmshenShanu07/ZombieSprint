@@ -4,6 +4,7 @@ import { Box3, Group } from 'three'
 import useGameStore from '../Hooks/useGameStore';
 import { Med } from './Med';
 
+const isMobile = innerWidth <= 700
 interface CoinProps {
   xPos: number
 }
@@ -22,7 +23,7 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
     if(!heroRef.current) return;
 
     coinRef.current.position.y = 
-      Math.abs(Math.sin(clock.elapsedTime * 2.5) * 0.03) + 0.07;
+      Math.abs(Math.sin(clock.elapsedTime * 2.5) * 0.03) + (isMobile?0.1:0.07);
     coinRef.current.rotation.y += 0.03
 
     if(isPaused) return;
@@ -47,7 +48,7 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
 
   return (
     <group ref={coinRef} position={[xPos,0.1,-15]} >
-      <Med name="coin" scale={0.5} rotation-z={Math.PI * 0.2} />
+      <Med name="coin" scale={isMobile?0.7:0.5} rotation-z={Math.PI * 0.2} />
     </group>
   )
 }

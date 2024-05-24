@@ -4,7 +4,8 @@ import { Zombie } from './Zombie';
 import { useRef } from 'react';
 
 const ALERT_DISTANCE = 1;
-const Z_POSITION = 1.5;
+const isMobile = innerWidth <= 700
+const Z_POSITION = isMobile?1:1.5;
 
 const Modi = () => {
   const  capRef = useRef<Mesh>(null);
@@ -59,7 +60,7 @@ const Modi = () => {
   return (
     <>
       <mesh ref={capRef} position={[0,0.12, Z_POSITION]} name='modi' >
-        <Zombie/>
+        <Zombie scale={isMobile?0.13:0} />
         <capsuleGeometry args={[0.04, 0.08, 4, 8]} />
         <meshPhongMaterial transparent opacity={0} />
       </mesh>
