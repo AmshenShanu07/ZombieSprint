@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { useKeyboardControls } from '@react-three/drei';
-import { Controls } from '../App';
-import useGameStore from '../Hooks/useGameStore';
-import { Runner } from './Runner';
 
-const isMobile = innerWidth <= 700
+import { Runner } from './Runner';
+import useGameStore from '../Hooks/useGameStore';
+import { Controls, isMobile } from '../utils/constant';
+
 
 const Hero = () => {
   const [sub] = useKeyboardControls<Controls>();
@@ -13,8 +13,6 @@ const Hero = () => {
   const dir= useRef<number>(0);
 
   const heroRef = useGameStore(state => state.hero);
-
-
    const handleHeroMovement = (dir: -1 | 1) => {
     if(!heroRef.current) return;
     
@@ -32,8 +30,6 @@ const Hero = () => {
   }
 
   const handleTouchStart = (event:TouchEvent) => {
-    // console.log(event.touches[0]);
-    
     xPos.current = event.touches[0].clientX;
   };
 
@@ -55,13 +51,6 @@ const Hero = () => {
     dir.current = 0
     xPos.current = 0
   }
-
-  useEffect(() => {
-    console.log(xPos);
-    
-  },[xPos])
-
-
   useEffect(() => {
     sub(
       (state) => state.left,
@@ -73,8 +62,6 @@ const Hero = () => {
     sub(
       (state) => state.right,
       (press) => {
-        // if(isPaused) return;
-
         press && handleHeroMovement(1);
       }
     );
@@ -92,10 +79,8 @@ const Hero = () => {
       removeEventListener('touchend',handleTouchEnd);
     }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
-
-
-
 
 
   return (

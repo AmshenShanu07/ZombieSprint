@@ -1,10 +1,11 @@
+import { Box3, Group } from 'three'
 import { useFrame } from '@react-three/fiber';
 import { Fragment, useLayoutEffect, useRef, useState } from 'react';
-import { Box3, Group } from 'three'
-import useGameStore from '../Hooks/useGameStore';
-import { Med } from './Med';
 
-const isMobile = innerWidth <= 700
+import { Med } from './Med';
+import useGameStore from '../Hooks/useGameStore';
+import { isMobile } from '../utils/constant';
+
 interface CoinProps {
   xPos: number
 }
@@ -14,9 +15,6 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
   const coinRef = useRef<Group>(null);
   const [isIntersected, setIsIntersected] = useState<boolean>(false);
   const heroRef = useGameStore(state => state.hero);
-  // const capRef = useGameStore(state => state.cap)
-
-
 
   useFrame(({ clock, scene }) => {
     if(!coinRef.current) return;
@@ -39,8 +37,6 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
       scene.remove(coinRef.current)
     }
     
-    
-
     if(coinRef.current.position.z > 3)
       scene.remove(coinRef.current)
 

@@ -70,6 +70,7 @@
   font-family: caesar;
   margin-top: auto;
   color: #7FDC68;
+  text-decoration: none;
 }
 .creator:hover {
   color: white;

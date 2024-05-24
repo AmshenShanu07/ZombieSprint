@@ -3,10 +3,11 @@ import './html.css';
 import useGameStore from '../Hooks/useGameStore';
 import Banner from './Banner';
 import GameOver from './GameOver';
+import { HighScoreType } from '../utils/constant';
 
 const HtmlOverlay = () => {
   const [time, setTime] = useState<number>(0);
-  const { isPaused, speed, heroPoint, startGame, gameOver, incGameSpeed, setGameMode } = useGameStore();
+  const { isPaused, speed, heroPoint, startGame, gameOver, incGameSpeed, setGameMode, setHighScore } = useGameStore();
 
   const onClickPlayPause = () => {
     setGameMode(!isPaused)
@@ -16,7 +17,7 @@ const HtmlOverlay = () => {
     const intervalId = setInterval(() => {
       if(!isPaused) {
         setTime(prevTime => (prevTime + 1));
-        speed < 0.2 && incGameSpeed()
+        speed < 0.5 && incGameSpeed()
       } else {
         setTime(prevTime => prevTime);
       }
@@ -30,7 +31,28 @@ const HtmlOverlay = () => {
     if(startGame) {
       setTime(0);
     }
-  },[startGame])
+  },[startGame]);
+
+  useEffect(() => {
+    if(!gameOver) return; 
+    
+    const highScore: HighScoreType | null = JSON.parse(localStorage.getItem('score') || '{}');
+
+    if(highScore?.score) {
+      const  tempHighScore = [...highScore.score];
+      tempHighScore[3] = time;
+      tempHighScore.sort((a,b) => b - a);
+      const hScore = [...tempHighScore.slice(0,3)];
+      setHighScore(hScore)
+      localStorage.setItem('score',JSON.stringify({ score: hScore }))
+    } else {
+      setHighScore([time,0,0])
+      localStorage.setItem('score',JSON.stringify({ score:[time,0,0] }))
+    }
+
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[gameOver])
 
   return (
     <main className='overlay_con'>
@@ -49,7 +71,7 @@ const HtmlOverlay = () => {
         </div>
       </>: <></>}
       {!startGame && !gameOver?<Banner/>:<></>}
-      {gameOver?<GameOver/>:<></>}
+      {gameOver?<GameOver time={time} />:<></>}
     </main>
   )
 }

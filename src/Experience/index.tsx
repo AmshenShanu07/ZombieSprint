@@ -6,9 +6,9 @@ import Floor from './Floor';
 import Sound from './Sound';
 import Modi from './Villian';
 import Boundry from './Stones';
-import { Controls } from '../App';
 import CoinsGenerator from './Coins';
 import ObstacleGenerator from './Obstacle';
+import { Controls } from '../utils/constant';
 import useGameStore from '../Hooks/useGameStore';
 
 

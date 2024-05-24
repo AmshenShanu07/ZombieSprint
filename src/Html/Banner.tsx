@@ -1,12 +1,12 @@
+import './Banner.css';
+
 import { useProgress } from '@react-three/drei';
 import useGameStore from '../Hooks/useGameStore';
-import './Banner.css';
+import { isMobile } from '../utils/constant';
 
 
 
 const Banner = () => {
-  const isMobile = innerWidth <= 700
-
   const { loaded, total } = useProgress();
   const { mute, startGame, setMute, setStartGame } = useGameStore();
 
@@ -55,7 +55,9 @@ const Banner = () => {
             {'<- Swipe ->'} <br />
             Space to Pause/Play
           </h2>}
-          <h1 className='creator'>Amshen Yesudas</h1>
+          <a  className='creator' href="https://amshen.tech" target='_blank' >
+            <h1 >Amshen Yesudas</h1>
+          </a>
         </> }
       </div>
     </div>

@@ -1,8 +1,8 @@
 // Damaged Grave by Kay Lousberg
 
 import * as THREE from 'three'
-import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
+import { useGLTF } from '@react-three/drei'
 
 const isMobile = innerWidth <= 700
 

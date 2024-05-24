@@ -1,10 +1,11 @@
 import * as THREE from 'three'
 import { useRef } from 'react';
-import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
+import { useGLTF } from '@react-three/drei'
 import { Fragment } from 'react/jsx-runtime'
 import { useFrame } from '@react-three/fiber';
 import useGameStore from '../Hooks/useGameStore';
+import { isMobile } from '../utils/constant';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -19,8 +20,6 @@ type GLTFResult = GLTF & {
   }
 }
 
-
-
 function Boundry(props: JSX.IntrinsicElements['group']) {
   const { isPaused } = useGameStore();
 
@@ -29,8 +28,7 @@ function Boundry(props: JSX.IntrinsicElements['group']) {
 
   useFrame(({ clock }) => {
     if(!grpRef.current) return;
-    // console.log(clock.elapsedTime % 10);
-    
+
     if(!isPaused)
     grpRef.current.position.z = ((clock.elapsedTime * 2.5) % 4) + 2;
 
@@ -41,14 +39,14 @@ function Boundry(props: JSX.IntrinsicElements['group']) {
     <group {...props} dispose={null} position-z={2} ref={grpRef} >
       {(new Array(20).fill(1)).map((_,i)=>(
         <Fragment key={i}>
-          <group position-x={-1} position-z={i * -1.02} scale={0.2} >
+          <group position-x={-1} position-z={i * -1.02} scale={isMobile?0.25:0.2} >
             <mesh name="Cube" geometry={nodes.Cube.geometry} material={materials['Material.001']} scale={0.5} />
             <mesh name="Icosphere" geometry={nodes.Icosphere.geometry} material={materials['Material.001']} scale={[0.639, 0.862, 0.588]} />
             <mesh name="Cube001" geometry={nodes.Cube001.geometry} material={materials['Material.001']} scale={0.5} />
             <mesh name="Cube002" geometry={nodes.Cube002.geometry} material={materials['Material.001']} scale={[0.5, 0.703, 0.5]} />
             <mesh name="Icosphere001" geometry={nodes.Icosphere001.geometry} material={materials['Material.001']} scale={[0.639, 0.696, 0.588]} />
           </group>
-          <group position-x={1} position-z={i * -1.02} scale={0.2} >
+          <group position-x={1} position-z={i * -1.02} scale={isMobile?0.25:0.2} >
             <mesh name="Cube" geometry={nodes.Cube.geometry} material={materials['Material.001']} scale={0.5} />
             <mesh name="Icosphere" geometry={nodes.Icosphere.geometry} material={materials['Material.001']} scale={[0.639, 0.862, 0.588]} />
             <mesh name="Cube001" geometry={nodes.Cube001.geometry} material={materials['Material.001']} scale={0.5} />
