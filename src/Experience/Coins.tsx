@@ -1,8 +1,10 @@
+import { Box3, Group } from 'three'
 import { useFrame } from '@react-three/fiber';
 import { Fragment, useLayoutEffect, useRef, useState } from 'react';
-import { Box3, Group } from 'three'
-import useGameStore from '../Hooks/useGameStore';
+
 import { Med } from './Med';
+import useGameStore from '../Hooks/useGameStore';
+import { isMobile } from '../utils/constant';
 
 interface CoinProps {
   xPos: number
@@ -13,16 +15,13 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
   const coinRef = useRef<Group>(null);
   const [isIntersected, setIsIntersected] = useState<boolean>(false);
   const heroRef = useGameStore(state => state.hero);
-  // const capRef = useGameStore(state => state.cap)
-
-
 
   useFrame(({ clock, scene }) => {
     if(!coinRef.current) return;
     if(!heroRef.current) return;
 
     coinRef.current.position.y = 
-      Math.abs(Math.sin(clock.elapsedTime * 2.5) * 0.03) + 0.07;
+      Math.abs(Math.sin(clock.elapsedTime * 2.5) * 0.03) + (isMobile?0.1:0.07);
     coinRef.current.rotation.y += 0.03
 
     if(isPaused) return;
@@ -38,8 +37,6 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
       scene.remove(coinRef.current)
     }
     
-    
-
     if(coinRef.current.position.z > 3)
       scene.remove(coinRef.current)
 
@@ -47,7 +44,7 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
 
   return (
     <group ref={coinRef} position={[xPos,0.1,-15]} >
-      <Med name="coin" scale={0.5} rotation-z={Math.PI * 0.2} />
+      <Med name="coin" scale={isMobile?0.7:0.5} rotation-z={Math.PI * 0.2} />
     </group>
   )
 }

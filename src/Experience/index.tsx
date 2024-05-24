@@ -1,33 +1,20 @@
-// import * as THREE from 'three';
-import { useKeyboardControls } from '@react-three/drei'
 import { useEffect } from 'react';
+import { useKeyboardControls } from '@react-three/drei'
 
-import Modi from './Modi';
 import Hero from './Hero';
 import Floor from './Floor';
+import Sound from './Sound';
+import Modi from './Villian';
+import Boundry from './Stones';
 import CoinsGenerator from './Coins';
 import ObstacleGenerator from './Obstacle';
+import { Controls } from '../utils/constant';
 import useGameStore from '../Hooks/useGameStore';
-import { Controls } from '../App';
-import Boundry from './Stones';
-import Sound from './Sound';
 
 
 const Experience = () => {
   const [sub] = useKeyboardControls<Controls>()
   const { isPaused, gameOver, startGame, setGameMode, setStartGame } = useGameStore();
-
-  // const onClickPlayPause = () => {
-  //   setGameMode(!isPaused)
-  // };
-
-  // const onStartStop = () => {
-  //   if(startGame) {
-  //     setGameOver()
-  //   } else {
-  //     setStartGame();
-  //   }
-  // }
 
 
   useEffect(() => {
@@ -47,7 +34,6 @@ const Experience = () => {
 
   return (
     <>
-      {/* <OrbitControls/> */}
       <CoinsGenerator/>
       <ObstacleGenerator/>
       <Hero/>
@@ -55,12 +41,6 @@ const Experience = () => {
       <Floor/>
       <Boundry/>
       <Sound/>
-      {/* <Html position={[0.5,viewport.height - 0.9,0]}>
-        <p>Timer:{Math.round(time)}</p>
-        <p>Hero:{heroPoint}</p>
-        <button onClick={onStartStop} >{startGame?"Restart":"Start"}</button>
-        <button onClick={onClickPlayPause} >{isPaused?"Resume":"Pause"}</button>
-      </Html> */}
     </>
   )
 }

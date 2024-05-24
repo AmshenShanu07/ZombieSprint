@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useLoader, useThree } from '@react-three/fiber';
-import { Suspense, useEffect, useRef, useState } from 'react'
 import { Audio, AudioListener, AudioLoader } from 'three';
+import { Suspense, useEffect, useRef, useState } from 'react'
+
 import useGameStore from '../Hooks/useGameStore';
 
 

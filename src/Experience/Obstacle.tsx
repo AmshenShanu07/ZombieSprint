@@ -1,8 +1,10 @@
+
+import { Mesh, Box3 } from 'three'
 import { useFrame } from '@react-three/fiber';
 import { Fragment, useLayoutEffect, useRef, useState } from 'react';
-import { Mesh, Box3 } from 'three'
-import useGameStore from '../Hooks/useGameStore';
+
 import Grave from './Grave';
+import useGameStore from '../Hooks/useGameStore';
 
 interface ObstacleProps {
   xPos: number

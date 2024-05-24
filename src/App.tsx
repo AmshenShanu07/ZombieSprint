@@ -3,15 +3,10 @@ import Experience from './Experience'
 import { KeyboardControls, KeyboardControlsEntry } from '@react-three/drei'
 import { Suspense, useMemo } from 'react'
 import HtmlOverlay from './Html'
+import { Controls, isMobile } from './utils/constant'
 
-export enum Controls {
-  left = 'left',
-  right = 'right',
-  pausePlay = 'pausePlay'
-}
 
 const App = () => {
-
   const map = useMemo<KeyboardControlsEntry<Controls>[]>(()=>[
     { name: Controls.left, keys: ['ArrowLeft', 'KeyA'] },
     { name: Controls.right, keys: ['ArrowRight', 'KeyD'] },
@@ -22,8 +17,7 @@ const App = () => {
     <>
     <Suspense>
         <KeyboardControls map={map} >
-          <Canvas shadows camera={{ position: [0, 0.6, 3], fov: 30 }} >
-            {/* <Environment background blur={0.1} preset="night" /> */}
+          <Canvas shadows camera={{ position: [0, isMobile?1:0.6, isMobile?2:3], fov:isMobile?60:30 }} >
             <color attach="background" args={['#383F42']} />
             <fog attach='fog' args={['#383F42',10,15]} />
             <ambientLight intensity={2} />

@@ -1,8 +1,10 @@
 // Damaged Grave by Kay Lousberg
 
 import * as THREE from 'three'
-import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
+import { useGLTF } from '@react-three/drei'
+
+const isMobile = innerWidth <= 700
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -15,7 +17,7 @@ type GLTFResult = GLTF & {
 function Grave(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF('/models/grave.glb') as GLTFResult
   return (
-    <group {...props} dispose={null} position-y={-0.16}>
+    <group {...props} scale={isMobile?1.3:1} dispose={null} position-y={-0.16}>
       <mesh 
         name="grave_A_destroyed" 
         geometry={nodes.grave_A_destroyed.geometry} 

@@ -1,10 +1,12 @@
-import { Mesh, Raycaster, Vector3 } from 'three';
-import { useFrame } from '@react-three/fiber';
-import { Zombie } from './Zombie';
 import { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { Mesh, Raycaster, Vector3 } from 'three';
+
+import { Zombie } from './Zombie';
+import { isMobile } from '../utils/constant';
 
 const ALERT_DISTANCE = 1;
-const Z_POSITION = 1.5;
+const Z_POSITION = isMobile?1:1.5;
 
 const Modi = () => {
   const  capRef = useRef<Mesh>(null);
@@ -43,15 +45,7 @@ const Modi = () => {
       capRef.current.position.x = crntPos > 0?0:crntPos;
       return;
     }
-    
-    // if(lObjs.length && lObjs[0].distance < ALERT_DISTANCE && lObjs[0].object.name === 'coin') {
-    //   capRef.current.position.x = -0.4;
-    // } else if(cObjs.length && cObjs[0].distance < ALERT_DISTANCE && cObjs[0].object.name === 'coin') {
-    //   capRef.current.position.x = 0;
-    // } else if (rObjs.length && rObjs[0].distance < ALERT_DISTANCE && rObjs[0].object.name === 'coin') {
-    //   capRef.current.position.x = 0.4;
-    // }
-
+  
   });
 
 
@@ -59,7 +53,7 @@ const Modi = () => {
   return (
     <>
       <mesh ref={capRef} position={[0,0.12, Z_POSITION]} name='modi' >
-        <Zombie/>
+        <Zombie scale={isMobile?0.13:0.1} />
         <capsuleGeometry args={[0.04, 0.08, 4, 8]} />
         <meshPhongMaterial transparent opacity={0} />
       </mesh>
