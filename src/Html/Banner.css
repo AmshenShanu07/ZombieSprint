@@ -68,6 +68,7 @@
 
 .creator {
   font-family: caesar;
+  margin-top: auto;
   color: #7FDC68;
 }
 .creator:hover {
@@ -108,4 +109,54 @@
   0%{background-color: #383f42;}
   50%{background-color: #383f42bd;}
   100%{background-color: #383f42;}
+}
+
+@media only screen and (max-width: 1100px) {
+  .start_text, .start_underline{
+    font-size: 62px;
+  }
+  .start_underline {
+    margin-top: -4.5rem;
+  }
+
+  .music_btn {
+    font-size: 24px;
+  }
+
+  .controls_info {
+    font-size: 18px;
+  }
+
+  .creator {
+    font-size: 22px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .banner_img {
+    width: 75%;
+  }
+
+  .game_content {
+    height: 50%;
+  }
+  .start_text, .start_underline{
+    font-size: 42px;
+  }
+
+  .start_underline {
+    margin-top: -3rem;
+  }
+
+  .music_btn {
+    font-size: 18px;
+  }
+
+  .controls_info {
+    font-size: 16px;
+  }
+
+  .creator {
+    font-size: 22px;
+  }
 }
