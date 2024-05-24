@@ -123,3 +123,56 @@
  	opacity: 1;
   }
 }
+
+@media only screen and (max-width:700px) {
+  .go_banner_img {
+    width: 70%;
+  }
+
+  .text_con {
+    margin: 25px 0;
+  }
+
+  .game_over_text, .game_over_line {
+    font-size: 42px;
+  }
+
+  .game_over_line {
+     margin-top: -3rem;
+  }
+
+  .score_con {
+    width: 93%;
+  }
+
+  .crnt_score_con h3, 
+  .highscore_con h3 {
+    font-size: 24px;
+  }
+
+  .crnt_score_con h1,  
+  .highscore_con h2 {
+    font-size: 26px;
+  }
+
+  .highscore_con h2 span {
+    font-size: 24px;
+  }
+
+  .crnt_score_con h1 small,  
+  .highscore_con h2 small {
+    font-size: 24px;
+  }
+
+  .restart_btn_con {
+    margin-top: auto;
+  }
+
+  .restart_btn_text, .restart_btn_line {
+    font-size: 42px;
+  }
+
+  .restart_btn_line {
+    margin-top: -3rem;
+  }
+}

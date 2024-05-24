@@ -34,7 +34,7 @@ const HtmlOverlay = () => {
 
   return (
     <main className='overlay_con'>
-      {startGame?<>
+      {(startGame)?<>
         <div onClick={onClickPlayPause} className="game_mode">
           <img 
             className='play_pause' alt=""
