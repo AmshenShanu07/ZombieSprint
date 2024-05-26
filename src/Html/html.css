@@ -78,11 +78,28 @@
 
 @media only screen and (max-width:700px) {
   .hud_title {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   .hud_text {
-    font-size: 42px ;
+    font-size: 38px ;
+  }
+
+  .play_pause {
+    width: 35px;
+    height: 35px;
+  }
+
+  .health_con {
+    top: 93vh;
+  }
+
+  .health_progress_con {
+    height: 5px;
+  }
+
+  .heatlh_percentage {
+    font-size: 18px;
   }
 
 }
