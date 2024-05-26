@@ -23,7 +23,7 @@ type GLTFResult = GLTF & {
 function Boundry(props: JSX.IntrinsicElements['group']) {
   const { isPaused } = useGameStore();
 
-  const { nodes, materials } = useGLTF('/models/stones.glb') as GLTFResult;
+  const { nodes, materials } = useGLTF('./models/stones.glb') as GLTFResult;
   const grpRef = useRef<THREE.Group>(null);
 
   useFrame(({ clock }) => {
@@ -61,4 +61,4 @@ function Boundry(props: JSX.IntrinsicElements['group']) {
 
 export default Boundry;
 
-useGLTF.preload('/models/stones.glb')
+useGLTF.preload('./models/stones.glb')

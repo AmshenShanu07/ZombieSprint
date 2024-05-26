@@ -11,7 +11,7 @@ const color = new Color(0x000000)
 const Floor = () => {
   const { isPaused, speed } = useGameStore()
   const floorOneRef = useRef<Mesh>(null);
-  const texture = useTexture('/textures/map2.png')
+  const texture = useTexture('./textures/map2.png')
 
   texture.wrapS = texture.wrapT = RepeatWrapping
   texture.repeat.set((PLANE_SIZE) * 0.05, (PLANE_SIZE * 25) * 0.05)

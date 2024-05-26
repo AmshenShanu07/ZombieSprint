@@ -3,15 +3,15 @@ import { useFrame } from '@react-three/fiber';
 import { Fragment, useLayoutEffect, useRef, useState } from 'react';
 
 import { Med } from './Med';
-import useGameStore from '../Hooks/useGameStore';
 import { isMobile } from '../utils/constant';
+import useGameStore from '../Hooks/useGameStore';
 
 interface CoinProps {
   xPos: number
 }
 
 const Coin = ({ xPos }:CoinProps):JSX.Element => {
-  const { speed, isPaused, heroPoint, setHeroPoint } = useGameStore();
+  const { speed, isPaused, heroPoint, health, setHeroPoint, setHealth, incGameSpeed } = useGameStore();
   const coinRef = useRef<Group>(null);
   const [isIntersected, setIsIntersected] = useState<boolean>(false);
   const heroRef = useGameStore(state => state.hero);
@@ -21,7 +21,7 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
     if(!heroRef.current) return;
 
     coinRef.current.position.y = 
-      Math.abs(Math.sin(clock.elapsedTime * 2.5) * 0.03) + (isMobile?0.1:0.07);
+              Math.abs(Math.sin(clock.elapsedTime * 2.5) * 0.03) + (isMobile?0.1:0.07);
     coinRef.current.rotation.y += 0.03
 
     if(isPaused) return;
@@ -31,10 +31,18 @@ const Coin = ({ xPos }:CoinProps):JSX.Element => {
     const heroBox = new Box3().setFromObject(heroRef.current)
     const coinBox = new Box3().setFromObject(coinRef.current);
 
-    if(coinBox.intersectsBox(heroBox) && !isIntersected) { 
+    if(coinBox.intersectsBox(heroBox) && !isIntersected) {
+      const point = heroPoint+1;
       setIsIntersected(true);
-      setHeroPoint(heroPoint+1)
-      scene.remove(coinRef.current)
+      setHeroPoint(point);
+      scene.remove(coinRef.current);
+      const tempHealth = health + 3;
+
+      if(point%5 == 0) {
+        incGameSpeed();
+      }
+
+      setHealth(tempHealth>=100?100:tempHealth);
     }
     
     if(coinRef.current.position.z > 3)

@@ -16,10 +16,10 @@ const Sound = () => {
 
   const { isPaused, heroPoint, mute, gameOver } = useGameStore();
 
-  const bgAudio = useLoader(AudioLoader,'/audios/bg.mp3')
-  const runAudio = useLoader(AudioLoader,'/audios/run.mp3')
-  const coinAudio = useLoader(AudioLoader,'/audios/coin.wav')
-  const deadAudio = useLoader(AudioLoader,'/audios/dead.wav')
+  const bgAudio = useLoader(AudioLoader,'./audios/bg.mp3')
+  const runAudio = useLoader(AudioLoader,'./audios/run.mp3')
+  const coinAudio = useLoader(AudioLoader,'./audios/coin.wav')
+  const deadAudio = useLoader(AudioLoader,'./audios/dead.wav')
 
   useEffect(() => {
     if(bgSound.current && runSound.current && coinSound.current && deadSound.current) {

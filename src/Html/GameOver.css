@@ -108,6 +108,7 @@
   cursor: pointer;
   font-family: caesar;
   color: #7FDC68;
+  text-align: center;
   text-decoration: none;
 }
 .creator:hover {
