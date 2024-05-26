@@ -11,6 +11,8 @@ export interface GameStoreType {
   gameOver: boolean;
   mute: boolean;
   highScore:number[];
+  health: number;
+  setHealth: (health:number) => void;
   setHighScore: (score:number[]) => void;
   setGameOver: () => void;
   setHeroPoint: (p:number) => void;
@@ -28,6 +30,7 @@ const useGameStore = create<GameStoreType>((set) =>({
   startGame:false,
   mute: false,
   highScore:[0,0,0],
+  health: 100,
   hero: createRef<Mesh>(),
   setGameOver: () => {
     return set((state)=>({ 
@@ -45,13 +48,18 @@ const useGameStore = create<GameStoreType>((set) =>({
       startGame: true,
       heroPoint: 0,
       speed: 0.03,
+      health:100,
       isPaused: false,
     }))
   },
+  setHealth: (health:number) => set((state) => ({ ...state, health })),
   setMute:(mute:boolean) => set((state)=>({ ...state, mute })),
   setHeroPoint:(p:number) => set((state) => ({ ...state, heroPoint:p })),
   incGameSpeed:()=>set((state)=>({ ...state, speed:state.speed + 0.005})),
-  setGameMode:(isPaused:boolean) => set((state)=>({ ...state, isPaused })),
+  setGameMode:(isPaused:boolean) => set((state)=>{
+    return ({ ...state, isPaused }
+
+    )}),
   setHighScore: (highScore:number[]) => set((state) =>({ ...state, highScore })),
 }));
 

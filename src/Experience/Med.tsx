@@ -16,7 +16,7 @@ type GLTFResult = GLTF & {
 }
 
 export function Med(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/models/med.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('./models/med.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh name="mesh2068853349" geometry={nodes.mesh2068853349.geometry} material={materials.mat24} />
@@ -26,4 +26,4 @@ export function Med(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/models/med.glb')
+useGLTF.preload('./models/med.glb')

@@ -36,7 +36,7 @@ const GameOver = ({ time }:GameOverProps) => {
           <h1 className='restart_btn_line' >_____</h1>
         </div>
         <a className='creator' href="https://amshen.tech" target='_blank' >
-          <h1 >Amshen Yesudas</h1>
+          <h1 >Sh4nu <br />(Amshen Yesudas)</h1>
         </a>
     </div>
   )

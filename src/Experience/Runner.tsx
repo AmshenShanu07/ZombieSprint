@@ -27,7 +27,7 @@ interface GLTFAction extends THREE.AnimationClip {
 export function Runner(props: JSX.IntrinsicElements['group']) {
   const { speed, isPaused } = useGameStore();
   const group = useRef<THREE.Group>(null)
-  const { nodes, materials, animations } = useGLTF('/models/runner.glb') as GLTFResult
+  const { nodes, materials, animations } = useGLTF('./models/runner.glb') as GLTFResult
   const { actions } = useAnimations(animations, group);
 
   useEffect(() =>{
@@ -73,4 +73,4 @@ export function Runner(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/models/runner.glb')
+useGLTF.preload('./models/runner.glb')

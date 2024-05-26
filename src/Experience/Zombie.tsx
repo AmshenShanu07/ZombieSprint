@@ -26,7 +26,7 @@ interface GLTFAction extends THREE.AnimationClip {
 export function Zombie(props: JSX.IntrinsicElements["group"]) {
   const { speed, isPaused } = useGameStore()
   const group = useRef<THREE.Group>(null);
-  const { nodes, materials, animations } = useGLTF("/models/zombie.glb") as GLTFResult;
+  const { nodes, materials, animations } = useGLTF("./models/zombie.glb") as GLTFResult;
   const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
@@ -76,4 +76,4 @@ export function Zombie(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-useGLTF.preload("/models/zombie.glb");
+useGLTF.preload("./models/zombie.glb");

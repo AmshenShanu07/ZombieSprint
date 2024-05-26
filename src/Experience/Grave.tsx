@@ -15,7 +15,7 @@ type GLTFResult = GLTF & {
   }
 }
 function Grave(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/models/grave.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('./models/grave.glb') as GLTFResult
   return (
     <group {...props} scale={isMobile?1.3:1} dispose={null} position-y={-0.16}>
       <mesh 
@@ -30,4 +30,4 @@ function Grave(props: JSX.IntrinsicElements['group']) {
 
 export default Grave;
 
-useGLTF.preload('/models/grave.glb')
+useGLTF.preload('./models/grave.glb')

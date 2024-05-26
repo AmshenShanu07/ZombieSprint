@@ -48,15 +48,13 @@ const Banner = () => {
           <h2 className='controls_info' >
             Controls <br />
             {'<- a / d ->'} <br />
-            Space to Pause/Play
           </h2>:
           <h2 className='controls_info' >
             Controls <br />
-            {'<- Swipe ->'} <br />
-            Space to Pause/Play
+            {'<- Swipe ->'}
           </h2>}
           <a  className='creator' href="https://amshen.tech" target='_blank' >
-            <h1 >Amshen Yesudas</h1>
+            <h1 >Sh4nu <br />(Amshen Yesudas)</h1>
           </a>
         </> }
       </div>
