@@ -4,6 +4,7 @@ import { KeyboardControls, KeyboardControlsEntry } from '@react-three/drei'
 import { Suspense, useMemo } from 'react'
 import HtmlOverlay from './Html'
 import { Controls, isMobile } from './utils/constant'
+import { Analytics } from '@vercel/analytics/react';
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
         </KeyboardControls>
       </Suspense>
       <HtmlOverlay/>
+      <Analytics/>
     </>
   )
 }
